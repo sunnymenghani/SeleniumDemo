@@ -37,8 +37,8 @@ public class TrelloLoginAndCreateBoardTest {
 
         String userNameLocator = "user";
         String passwordLocator = "password";
-        String userName = "sunnymenghani4796@gmail.com";
-        String password = "sunny@trello1";
+        String userName = "xyz@gmail.com";
+        String password = "password";
         String loginButtonLocator = "login";
 
         driver.findElement(By.id(userNameLocator)).click();
@@ -129,7 +129,6 @@ public class TrelloLoginAndCreateBoardTest {
         driver.findElement(By.cssSelector(searchMemberLocator)).click();
         driver.findElement(By.cssSelector(searchMemberLocator)).clear();
         driver.findElement(By.cssSelector(searchMemberLocator)).sendKeys(searchMember);
-        
 
 
 
