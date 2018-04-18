@@ -17,6 +17,8 @@ public class TrelloLoginAndCreateBoardTest {
     WebDriver driver;
     Logger logger = null;
     private String addDescriptionToCard = "";
+    private String reportDirectory ="/Users/sunny/Documents/Selenium_Demo/SeleniumDemo/Report";
+    Report report;
 
     @Test
     /*
@@ -29,8 +31,11 @@ public class TrelloLoginAndCreateBoardTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        report = new Report();
+        report.startReport(reportDirectory,this.getClass().getName());
         String url = "https://trello.com/";
-        logger.info(url);
+//        logger.info(url);
+        report.enterLog(url);
         driver.get(url);
         logger.info("Click on the Login Button");
         driver.findElement(By.linkText("Log In")).click();
@@ -44,7 +49,8 @@ public class TrelloLoginAndCreateBoardTest {
         driver.findElement(By.id(userNameLocator)).click();
         driver.findElement(By.id(userNameLocator)).clear();
 
-        logger.info("Enter UserName "+ userName);
+//        logger.info("Enter UserName "+ userName);
+        report.enterLog("Enter username "+userName);
         driver.findElement(By.id(userNameLocator)).sendKeys(userName);
         driver.findElement(By.id(passwordLocator)).sendKeys(password);
         driver.findElement(By.id(loginButtonLocator)).click();
@@ -77,16 +83,20 @@ public class TrelloLoginAndCreateBoardTest {
     public void addCard(){
 
         String toDoLocator = ".//*[@id='board']/div[1]/div/a";
-        logger.info("Click on Add a card link of ToDo Table");
+//        logger.info("Click on Add a card link of ToDo Table");
+        report.enterLog("Click on add a card link of todo table");
+
         driver.findElement(By.xpath(toDoLocator)).click();
 
         String addDescriptionToCardLocator = ".list-card-composer-textarea.js-card-title";
         addDescriptionToCard = "Create Card";
-        logger.info("Writing description "+addDescriptionToCard+" to card");
+//        logger.info("Writing description "+addDescriptionToCard+" to card");
+        report.enterLog("Writing description "+addDescriptionToCard+" to card");
         driver.findElement(By.cssSelector(addDescriptionToCardLocator)).sendKeys(addDescriptionToCard);
 
         String addLocator = ".primary.confirm.mod-compact.js-add-card";
-        logger.info("Click on Add Button After writing a description to card");
+//        logger.info("Click on Add Button After writing a description to card");
+        report.enterLog("Click on Add Button After writing a description to card");
         driver.findElement(By.cssSelector(addLocator)).click();
         String closeAddPopUp = ".icon-lg.icon-close.dark-hover.js-cancel";
         driver.findElement(By.cssSelector(closeAddPopUp)).click();
@@ -99,7 +109,8 @@ public class TrelloLoginAndCreateBoardTest {
     This block of code drag item from one table to ther
      */
     public void moveCardFromOneListToOther(){
-        logger.info("Drag option :-"+addDescriptionToCard);
+//        logger.info("Drag option :-"+addDescriptionToCard);
+        report.enterLog("Drag option :-"+addDescriptionToCard);
         WebElement dragFrom = driver.findElement(By.linkText(addDescriptionToCard));
         WebElement dragTo = driver.findElement(By.xpath(".//*[@id='board']/div[2]"));
 
@@ -119,13 +130,16 @@ public class TrelloLoginAndCreateBoardTest {
         String searchMemberLocator = ".js-search-input.js-autofocus";
         String searchMember = "sunny menghani";
 
-        logger.info("Click on link:- "+showMenuLinkLocator);
+//        logger.info("Click on link:- "+showMenuLinkLocator);
+        report.enterLog("Click on link:- "+showMenuLinkLocator);
         driver.findElement(By.linkText(showMenuLinkLocator)).click();
 
-        logger.info("Click on Invite Link");
+//        logger.info("Click on Invite Link");
+        report.enterLog("Click on Invite Link");
         driver.findElement(By.cssSelector(inviteLocator)).click();
 
-        logger.info("Searching Member "+searchMember);
+//        logger.info("Searching Member "+searchMember);
+        report.enterLog("Searching Member "+searchMember);
         driver.findElement(By.cssSelector(searchMemberLocator)).click();
         driver.findElement(By.cssSelector(searchMemberLocator)).clear();
         driver.findElement(By.cssSelector(searchMemberLocator)).sendKeys(searchMember);
@@ -137,7 +151,9 @@ public class TrelloLoginAndCreateBoardTest {
 
     @AfterClass
     public void closeBrowser(){
-        logger.info("Closing the browser");
+//        logger.info("Closing the browser");
+        report.endTestScenario();
+        report.flushToReport();
         driver.quit();
     }
 
